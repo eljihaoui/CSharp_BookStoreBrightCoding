@@ -16,12 +16,13 @@ namespace BookStore.Forms
     {
         private readonly BooksForms bookforms;
         private readonly Guid IdBookUp;
+        bool vTitle, vDescription, vPrice, vNbPages;
         public BookNewEditForm()
         {
             InitializeComponent();
         }
 
-        public BookNewEditForm(BooksForms Pbookforms,[Optional] Guid IdBook)
+        public BookNewEditForm(BooksForms Pbookforms, [Optional] Guid IdBook)
         {
             InitializeComponent();
             this.bookforms = Pbookforms;
@@ -61,11 +62,13 @@ namespace BookStore.Forms
                         MemoryStream ms = new MemoryStream(book.Cover);
                         txtImageCover.Image = Image.FromStream(ms);
                     }
-                    
+
                 }
 
             }
         }
+
+
 
         private void btnUploadCover_Click(object sender, EventArgs e)
         {
@@ -80,51 +83,84 @@ namespace BookStore.Forms
         }
         private void btnSaveBook_Click(object sender, EventArgs e)
         {
-            using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
+
+            txtTitle_Validating(sender, e as CancelEventArgs);
+            txtDescrip_Validating(sender, e as CancelEventArgs);
+            txtPrice_Validating(sender, e as CancelEventArgs);
+            txtNbPages_Validating(sender, e as CancelEventArgs);
+
+            if (vTitle && vDescription && vPrice && vNbPages)
             {
-                string title = txtTitle.Text;
-                string descBook = txtDescrip.Text;
-                DateTime publishedDate = txtPublishedDate.Value.Date;
-                double price = Convert.ToDouble(txtPrice.Text);
-                int nbPages = Convert.ToInt32(txtNbPages.Text);
-                Guid idAuthor = Guid.Parse(txtAuthor.SelectedValue.ToString());
-                Guid idCateg = Guid.Parse(txtCateg.SelectedValue.ToString());
-                /************************** Add Book ********************************/
-                if (IdBookUp == Guid.Empty)
+                using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
                 {
-                    Book book = new Book()
+                    string title = txtTitle.Text;
+                    string descBook = txtDescrip.Text;
+                    DateTime publishedDate = txtPublishedDate.Value.Date;
+                    double price = Convert.ToDouble(txtPrice.Text);
+                    int nbPages = Convert.ToInt32(txtNbPages.Text);
+                    Guid idAuthor = Guid.Parse(txtAuthor.SelectedValue.ToString());
+                    Guid idCateg = Guid.Parse(txtCateg.SelectedValue.ToString());
+                    /************************** Add Book ********************************/
+                    if (IdBookUp == Guid.Empty)
                     {
-                        Title = title,
-                        DescBook = descBook,
-                        PublishedDate = publishedDate,
-                        Price = price,
-                        NbPages = nbPages,
-                        IdAuthor = idAuthor,
-                        IdCateg = idCateg,
-                        Cover = (!String.IsNullOrEmpty(txtImageCoverPath.Text) ? ConvertToBinaryFromFile(txtImageCoverPath.Text) : null)
-                    };
-                    uow.Books.Add(book);
-                }
-                /************************** Edit  Book ********************************/
-                else
-                {
-                    Book book = uow.Books.Get(IdBookUp);
-                    book.Title = title;
-                    book.DescBook = descBook;
-                    book.PublishedDate = publishedDate;
-                    book.Price = price;
-                    book.NbPages = nbPages;
-                    book.IdAuthor = idAuthor;
-                    book.IdCateg = idCateg;
-                    book.Cover = (!String.IsNullOrEmpty(txtImageCoverPath.Text) ? ConvertToBinaryFromFile(txtImageCoverPath.Text) : book.Cover);
-                }
-               
-                if (uow.Complete() > 0)
-                {
-                    this.Close();
-                    bookforms.ReloadData();
+                        Book book = new Book()
+                        {
+                            Title = title,
+                            DescBook = descBook,
+                            PublishedDate = publishedDate,
+                            Price = price,
+                            NbPages = nbPages,
+                            IdAuthor = idAuthor,
+                            IdCateg = idCateg,
+                            Cover = (!String.IsNullOrEmpty(txtImageCoverPath.Text) ? ConvertToBinaryFromFile(txtImageCoverPath.Text) : null)
+                        };
+                        uow.Books.Add(book);
+                    }
+                    /************************** Edit  Book ********************************/
+                    else
+                    {
+                        Book book = uow.Books.Get(IdBookUp);
+                        book.Title = title;
+                        book.DescBook = descBook;
+                        book.PublishedDate = publishedDate;
+                        book.Price = price;
+                        book.NbPages = nbPages;
+                        book.IdAuthor = idAuthor;
+                        book.IdCateg = idCateg;
+                        book.Cover = (!String.IsNullOrEmpty(txtImageCoverPath.Text) ? ConvertToBinaryFromFile(txtImageCoverPath.Text) : book.Cover);
+                    }
+
+                    if (uow.Complete() > 0)
+                    {
+                        this.Close();
+                        bookforms.ReloadData();
+                    }
                 }
             }
+
+
+        }
+
+        private void txtTitle_Validating(object sender, CancelEventArgs e)
+        {
+            vTitle = ValidateData(ErrProvider, txtTitle, "Value of title not correct !!!", btnSaveBook);
+        }
+        private void txtDescrip_Validating(object sender, CancelEventArgs e)
+        {
+            vDescription = ValidateData(ErrProvider, txtDescrip, "Value of Description not correct !!!", btnSaveBook);
+
+        }
+
+        private void txtPrice_Validating(object sender, CancelEventArgs e)
+        {
+            vPrice = ValidateData(ErrProvider, txtPrice, "Value of price  not correct !!!", btnSaveBook, true);
+
+        }
+
+        private void txtNbPages_Validating(object sender, CancelEventArgs e)
+        {
+            vNbPages = ValidateData(ErrProvider, txtNbPages, "Value of nbPages  not correct !!!", btnSaveBook, true);
+
         }
     }
 }

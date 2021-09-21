@@ -29,6 +29,7 @@ namespace BookStore.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookNewEditForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
@@ -53,10 +54,12 @@ namespace BookStore.Forms
             this.txtImageCover = new System.Windows.Forms.PictureBox();
             this.btnUploadCover = new System.Windows.Forms.Button();
             this.txtImageCoverPath = new System.Windows.Forms.Label();
+            this.ErrProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtImageCover)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -127,7 +130,7 @@ namespace BookStore.Forms
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 74);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(462, 612);
+            this.groupBox1.Size = new System.Drawing.Size(498, 612);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
@@ -181,6 +184,7 @@ namespace BookStore.Forms
             this.txtNbPages.Name = "txtNbPages";
             this.txtNbPages.Size = new System.Drawing.Size(103, 37);
             this.txtNbPages.TabIndex = 12;
+            this.txtNbPages.Validating += new System.ComponentModel.CancelEventHandler(this.txtNbPages_Validating);
             // 
             // txtPrice
             // 
@@ -190,6 +194,7 @@ namespace BookStore.Forms
             this.txtPrice.Name = "txtPrice";
             this.txtPrice.Size = new System.Drawing.Size(86, 37);
             this.txtPrice.TabIndex = 11;
+            this.txtPrice.Validating += new System.ComponentModel.CancelEventHandler(this.txtPrice_Validating);
             // 
             // labeltxtnbPage
             // 
@@ -246,6 +251,7 @@ namespace BookStore.Forms
             this.txtDescrip.Name = "txtDescrip";
             this.txtDescrip.Size = new System.Drawing.Size(420, 131);
             this.txtDescrip.TabIndex = 3;
+            this.txtDescrip.Validating += new System.ComponentModel.CancelEventHandler(this.txtDescrip_Validating);
             // 
             // label3
             // 
@@ -266,6 +272,7 @@ namespace BookStore.Forms
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(420, 37);
             this.txtTitle.TabIndex = 1;
+            this.txtTitle.Validating += new System.ComponentModel.CancelEventHandler(this.txtTitle_Validating);
             // 
             // label2
             // 
@@ -299,9 +306,9 @@ namespace BookStore.Forms
             // txtImageCover
             // 
             this.txtImageCover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtImageCover.Location = new System.Drawing.Point(500, 84);
+            this.txtImageCover.Location = new System.Drawing.Point(531, 84);
             this.txtImageCover.Name = "txtImageCover";
-            this.txtImageCover.Size = new System.Drawing.Size(551, 602);
+            this.txtImageCover.Size = new System.Drawing.Size(520, 602);
             this.txtImageCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.txtImageCover.TabIndex = 8;
             this.txtImageCover.TabStop = false;
@@ -336,6 +343,11 @@ namespace BookStore.Forms
             this.txtImageCoverPath.Text = "_";
             this.txtImageCoverPath.Visible = false;
             // 
+            // ErrProvider
+            // 
+            this.ErrProvider.ContainerControl = this;
+            this.ErrProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("ErrProvider.Icon")));
+            // 
             // BookNewEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -359,6 +371,7 @@ namespace BookStore.Forms
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtImageCover)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ErrProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,5 +402,6 @@ namespace BookStore.Forms
         private System.Windows.Forms.PictureBox txtImageCover;
         private System.Windows.Forms.Button btnUploadCover;
         private System.Windows.Forms.Label txtImageCoverPath;
+        private System.Windows.Forms.ErrorProvider ErrProvider;
     }
 }

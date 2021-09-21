@@ -6,7 +6,7 @@ using System.IO;
 using System.Resources;
 using System.Text;
 using System.Windows.Forms;
-
+using static System.String;
 namespace BookStore
 {
     public static class SharedData
@@ -25,7 +25,7 @@ namespace BookStore
                 {"delete",50 },
         };
 
-        public static void SetWitdthDataGridView(DataGridView dgv, Dictionary<string,int> DicColumns)
+        public static void SetWitdthDataGridView(DataGridView dgv, Dictionary<string, int> DicColumns)
         {
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             foreach (string key in DicColumns.Keys)
@@ -61,12 +61,43 @@ namespace BookStore
         public static byte[] ConvertToBinaryFromFile(string file)
         {
             byte[] bytes;
-            using (FileStream fs = new FileStream(file,FileMode.Open,FileAccess.Read))
+            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
                 bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, (int)fs.Length);
             }
             return bytes;
+        }
+
+
+        public static bool IsNumeric(string input)
+        {
+            try
+            {
+                float a = float.Parse(input);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool ValidateData (ErrorProvider errProvider, TextBox textbox, string msgError,Button btn, bool isNumeric = false)
+        {
+            bool condition = (isNumeric) ? (IsNullOrEmpty(textbox.Text) || !IsNumeric(textbox.Text)) : IsNullOrEmpty(textbox.Text);
+            if (condition)
+            {
+                errProvider.SetError(textbox, msgError);
+                btn.Enabled = false;
+                return false;
+            }
+            else
+            {
+                errProvider.Dispose();
+                btn.Enabled = true;
+                return true;
+            }
         }
     }
 }
