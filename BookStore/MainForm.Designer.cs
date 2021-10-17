@@ -124,6 +124,7 @@ namespace BookStore
             this.btnStatistic.TabIndex = 3;
             this.btnStatistic.Text = "Statistics";
             this.btnStatistic.UseVisualStyleBackColor = false;
+            this.btnStatistic.Click += new System.EventHandler(this.btnStatistic_Click);
             // 
             // btnBooks
             // 

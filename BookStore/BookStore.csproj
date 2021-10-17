@@ -17,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Forms\StatisticsForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Forms\BooksForms.cs">
       <SubType>UserControl</SubType>
     </Compile>
