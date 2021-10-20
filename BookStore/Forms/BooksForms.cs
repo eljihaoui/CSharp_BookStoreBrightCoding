@@ -3,6 +3,8 @@ using BookStore.ModelsHelpers;
 using BookStore.Repository.Implementations;
 using LinqKit;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace BookStore.Forms
     {
         private int TotalPages = 0;
         private Page page;
+        private IEnumerable<BookViewModel> listbooks;
         public BooksForms()
         {
             InitializeComponent();
@@ -40,18 +43,19 @@ namespace BookStore.Forms
 
             using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
             {
-                var list = uow.Books.Find(predicate, "Author,Category", page).Select(p => new
+                var list = uow.Books.Find(predicate, "Author,Category", page).Select(p => new BookViewModel
                 {
                     IdBook = p.IdBook,
                     Title = p.Title,
                     Description = p.DescBook,
-                    Price = p.Price,
-                    nbPages = p.NbPages,
-                    Published = p.PublishedDate,
+                    Price = (double)p.Price,
+                    NbPages = (int)p.NbPages,
+                    Published = (DateTime)p.PublishedDate,
                     Categorie = p.Category.Categ,
                     Author = p.Author.Name
                 }).ToList();
                 dgvBooks.DataSource = list;
+                listbooks = list;
             }
             txtNbBooks.Text = dgvBooks.RowCount.ToString();
         }
@@ -67,6 +71,7 @@ namespace BookStore.Forms
             ReloadData();
             CalculateTotalPages(page);
             dgvBooks.Columns["IdBook"].Visible = false;
+            dgvBooks.Columns["Cover"].Visible = false;
             AddColumnIcon(dgvBooks, "edit", "edit");
             AddColumnIcon(dgvBooks, "print", "print");
             AddColumnIcon(dgvBooks, "delete", "delete");
@@ -142,11 +147,7 @@ namespace BookStore.Forms
             ReloadData();
         }
 
-  
-
-
-
-        private void btnFirst_Click(object sender, EventArgs e)
+          private void btnFirst_Click(object sender, EventArgs e)
         {
             page.pageIndex = 1;
             txtCurrentPage.Text= $"Page {page.pageIndex} / {TotalPages}";
@@ -178,6 +179,18 @@ namespace BookStore.Forms
             page.pageIndex = TotalPages;
             txtCurrentPage.Text = $"Page {page.pageIndex} / {TotalPages}";
             ReloadData();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            DataTable dataSource;
+            dataSource = getDataTableFromIEnumerable(listbooks);
+            string path = @"Reports\ListOfBooks.rdlc";
+            string dataSourceName = "ds_listBooks";
+            string fileName = "ListBooks";
+            PrintToPDF(path, dataSourceName, dataSource, fileName);
+
+
         }
     }
 }

@@ -14,9 +14,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.14" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="DataSets\ListOfBooks.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ListOfBooks.xsd</DependentUpon>
+    </Compile>
     <Compile Update="Forms\StatisticsForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -35,6 +41,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataSets\ListOfBooks.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ListOfBooks.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Reports\ListOfBooks.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

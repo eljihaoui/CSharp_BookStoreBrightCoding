@@ -57,7 +57,7 @@ namespace BookStore
             this.PanelTop.Controls.Add(this.btnExit);
             this.PanelTop.Location = new System.Drawing.Point(211, 0);
             this.PanelTop.Name = "PanelTop";
-            this.PanelTop.Size = new System.Drawing.Size(833, 74);
+            this.PanelTop.Size = new System.Drawing.Size(871, 93);
             this.PanelTop.TabIndex = 0;
             // 
             // pictureBox1
@@ -88,7 +88,7 @@ namespace BookStore
             this.btnExit.FlatAppearance.BorderSize = 0;
             this.btnExit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnExit.ForeColor = System.Drawing.Color.Red;
-            this.btnExit.Location = new System.Drawing.Point(753, 12);
+            this.btnExit.Location = new System.Drawing.Point(791, 12);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(60, 46);
             this.btnExit.TabIndex = 0;
@@ -106,7 +106,7 @@ namespace BookStore
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(221, 701);
+            this.panelLeft.Size = new System.Drawing.Size(221, 720);
             this.panelLeft.TabIndex = 1;
             // 
             // btnStatistic
@@ -178,14 +178,14 @@ namespace BookStore
             this.panelContent.BackColor = System.Drawing.SystemColors.Control;
             this.panelContent.Location = new System.Drawing.Point(220, 70);
             this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(825, 631);
+            this.panelContent.Size = new System.Drawing.Size(863, 650);
             this.panelContent.TabIndex = 2;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1044, 701);
+            this.ClientSize = new System.Drawing.Size(1082, 720);
             this.Controls.Add(this.panelContent);
             this.Controls.Add(this.panelLeft);
             this.Controls.Add(this.PanelTop);

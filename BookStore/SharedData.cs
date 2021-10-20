@@ -1,8 +1,12 @@
-﻿using BookStore.Properties;
+﻿using BookStore.ModelsHelpers;
+using BookStore.Properties;
+using Microsoft.Reporting.NETCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Windows.Forms;
@@ -83,7 +87,7 @@ namespace BookStore
             }
         }
 
-        public static bool ValidateData (ErrorProvider errProvider, TextBox textbox, string msgError,Button btn, bool isNumeric = false)
+        public static bool ValidateData(ErrorProvider errProvider, TextBox textbox, string msgError, Button btn, bool isNumeric = false)
         {
             bool condition = (isNumeric) ? (IsNullOrEmpty(textbox.Text) || !IsNumeric(textbox.Text)) : IsNullOrEmpty(textbox.Text);
             if (condition)
@@ -99,5 +103,46 @@ namespace BookStore
                 return true;
             }
         }
+
+        public static DataTable getDataTableFromIEnumerable(IEnumerable<BookViewModel> list)
+        {
+            var props = typeof(BookViewModel).GetProperties();
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(
+                props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray()
+                );
+            list.ToList().ForEach(
+                b => dt.Rows.Add(props.Select(p => p.GetValue(b, null)).ToArray())
+                );
+            return dt;
+        }
+
+        public static void PrintToPDF(string RptPath , string nameSrcRpt, DataTable valueSrcRpt,string fileName, string subReport=null)
+        {
+            StreamReader reportDefintion = new StreamReader(RptPath);
+            LocalReport report = new LocalReport();
+            report.LoadReportDefinition(reportDefintion);
+            report.DataSources.Add(new ReportDataSource(nameSrcRpt, valueSrcRpt));
+            byte[] pdf = report.Render("PDF");
+            if (subReport != null)
+            {
+
+            }
+            Stream stm;
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.Filter = "All Files(*.*)| *.* ";
+            DateTime d = DateTime.Now;
+            string outputFileName = $"{fileName} {d.Day}-{d.Month}-{d.Year} {d.Hour}_{d.Minute}.pdf";
+            saveFile.FileName = outputFileName;
+            if (saveFile.ShowDialog() == DialogResult.OK)
+            {
+                if((stm=saveFile.OpenFile()) != null){
+                    stm.Write(pdf, 0, pdf.Length);
+                    stm.Close();
+                }
+            }
+
+        }
+
     }
 }

@@ -52,6 +52,7 @@ namespace BookStore.Forms
             this.btnNext = new System.Windows.Forms.Button();
             this.btnLast = new System.Windows.Forms.Button();
             this.txtCurrentPage = new System.Windows.Forms.Label();
+            this.btnPrint = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBooks)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -146,7 +147,7 @@ namespace BookStore.Forms
             this.btnNewBook.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnNewBook.Image = ((System.Drawing.Image)(resources.GetObject("btnNewBook.Image")));
             this.btnNewBook.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNewBook.Location = new System.Drawing.Point(1334, 27);
+            this.btnNewBook.Location = new System.Drawing.Point(1193, 31);
             this.btnNewBook.Name = "btnNewBook";
             this.btnNewBook.Size = new System.Drawing.Size(139, 36);
             this.btnNewBook.TabIndex = 8;
@@ -313,10 +314,30 @@ namespace BookStore.Forms
             this.txtCurrentPage.TabIndex = 21;
             this.txtCurrentPage.Text = "_";
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrint.BackColor = System.Drawing.Color.LightCyan;
+            this.btnPrint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrint.FlatAppearance.BorderSize = 0;
+            this.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrint.Font = new System.Drawing.Font("Century Gothic", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnPrint.Image = ((System.Drawing.Image)(resources.GetObject("btnPrint.Image")));
+            this.btnPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPrint.Location = new System.Drawing.Point(1345, 32);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(139, 36);
+            this.btnPrint.TabIndex = 22;
+            this.btnPrint.Text = "Print PDF";
+            this.btnPrint.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPrint.UseVisualStyleBackColor = false;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // BooksForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.txtCurrentPage);
             this.Controls.Add(this.btnLast);
             this.Controls.Add(this.btnNext);
@@ -364,5 +385,6 @@ namespace BookStore.Forms
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnLast;
         private System.Windows.Forms.Label txtCurrentPage;
+        private System.Windows.Forms.Button btnPrint;
     }
 }
