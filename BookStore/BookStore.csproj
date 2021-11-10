@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="DataSets\DsAuthor.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DsAuthor.xsd</DependentUpon>
+    </Compile>
     <Compile Update="DataSets\ListOfBooks.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -44,9 +49,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="DataSets\DsAuthor.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DsAuthor.Designer.cs</LastGenOutput>
+    </None>
     <None Update="DataSets\ListOfBooks.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>ListOfBooks.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Reports\BookDetail.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reports\ListAuthors.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reports\AuthorSubReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Reports\ListOfBooks.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

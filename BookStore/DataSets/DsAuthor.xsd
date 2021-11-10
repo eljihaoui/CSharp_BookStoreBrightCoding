@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsAuthor" targetNamespace="http://tempuri.org/DsAuthor.xsd" xmlns:mstns="http://tempuri.org/DsAuthor.xsd" xmlns="http://tempuri.org/DsAuthor.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsAuthor" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DsAuthor" msprop:Generator_UserDSName="DsAuthor">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Author" msprop:Generator_TableClassName="AuthorDataTable" msprop:Generator_TableVarName="tableAuthor" msprop:Generator_TablePropName="Author" msprop:Generator_RowDeletingName="AuthorRowDeleting" msprop:Generator_RowChangingName="AuthorRowChanging" msprop:Generator_RowEvHandlerName="AuthorRowChangeEventHandler" msprop:Generator_RowDeletedName="AuthorRowDeleted" msprop:Generator_UserTableName="Author" msprop:Generator_RowChangedName="AuthorRowChanged" msprop:Generator_RowEvArgName="AuthorRowChangeEvent" msprop:Generator_RowClassName="AuthorRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IdAuthor" msprop:Generator_ColumnVarNameInTable="columnIdAuthor" msprop:Generator_ColumnPropNameInRow="IdAuthor" msprop:Generator_ColumnPropNameInTable="IdAuthorColumn" msprop:Generator_UserColumnName="IdAuthor" type="xs:string" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Email" msprop:Generator_ColumnVarNameInTable="columnEmail" msprop:Generator_ColumnPropNameInRow="Email" msprop:Generator_ColumnPropNameInTable="EmailColumn" msprop:Generator_UserColumnName="Email" type="xs:string" minOccurs="0" />
+              <xs:element name="Gender" msprop:Generator_ColumnVarNameInTable="columnGender" msprop:Generator_ColumnPropNameInRow="Gender" msprop:Generator_ColumnPropNameInTable="GenderColumn" msprop:Generator_UserColumnName="Gender" type="xs:string" minOccurs="0" />
+              <xs:element name="nbBooks" msprop:Generator_ColumnVarNameInTable="columnnbBooks" msprop:Generator_ColumnPropNameInRow="nbBooks" msprop:Generator_ColumnPropNameInTable="nbBooksColumn" msprop:Generator_UserColumnName="nbBooks" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

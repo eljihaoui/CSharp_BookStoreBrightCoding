@@ -1,5 +1,7 @@
-﻿using BookStore.ModelsHelpers;
+﻿using BookStore.ModelsDB;
+using BookStore.ModelsHelpers;
 using BookStore.Properties;
+using BookStore.Repository.Implementations;
 using Microsoft.Reporting.NETCore;
 using System;
 using System.Collections.Generic;
@@ -117,16 +119,18 @@ namespace BookStore
             return dt;
         }
 
-        public static void PrintToPDF(string RptPath , string nameSrcRpt, DataTable valueSrcRpt,string fileName, string subReport=null)
+        public static void PrintToPDF(string RptPath, string nameSrcRpt, DataTable valueSrcRpt, string fileName, bool subReport = false)
         {
             StreamReader reportDefintion = new StreamReader(RptPath);
             LocalReport report = new LocalReport();
             report.LoadReportDefinition(reportDefintion);
             report.DataSources.Add(new ReportDataSource(nameSrcRpt, valueSrcRpt));
             byte[] pdf = report.Render("PDF");
-            if (subReport != null)
+            if (subReport)
             {
-
+                StreamReader subReportDefinition = new StreamReader(@"Reports\AuthorSubReport.rdlc");
+                report.LoadSubreportDefinition("AuthorSubReport", subReportDefinition);
+                report.SubreportProcessing += new SubreportProcessingEventHandler(SubreportProcessing);
             }
             Stream stm;
             SaveFileDialog saveFile = new SaveFileDialog();
@@ -136,12 +140,38 @@ namespace BookStore
             saveFile.FileName = outputFileName;
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                if((stm=saveFile.OpenFile()) != null){
+                if ((stm = saveFile.OpenFile()) != null)
+                {
                     stm.Write(pdf, 0, pdf.Length);
                     stm.Close();
                 }
             }
 
+        }
+
+        static void SubreportProcessing(object sender, SubreportProcessingEventArgs args)
+        {
+            Guid idAuthor = Guid.Parse(args.Parameters["IdAuthor"].Values[0].ToString());
+            using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
+            {
+                var list = uow.Books.Find(b => b.IdAuthor == idAuthor, "Author,Category")
+                  .Select(p => new BookViewModel
+                  {
+                      IdBook = p.IdBook,
+                      Title = p.Title,
+                      Description = p.DescBook,
+                      Price = (double)p.Price,
+                      NbPages = (int)p.NbPages,
+                      Published = (DateTime)p.PublishedDate,
+                      Categorie = p.Category.Categ,
+                      Author = p.Author.Name,
+                      Cover = p.Cover
+                  }).ToList();
+                DataTable dt = new DataTable();
+                dt = getDataTableFromIEnumerable(list);
+                ReportDataSource rds = new ReportDataSource("ds_listBooks", dt);
+                args.DataSources.Add(rds);
+            }
         }
 
     }

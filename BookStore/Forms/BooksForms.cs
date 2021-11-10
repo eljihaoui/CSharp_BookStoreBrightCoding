@@ -63,7 +63,7 @@ namespace BookStore.Forms
         {
             using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
             {
-                TotalPages =(int) Math.Ceiling((double)uow.Books.GetAll().Count() / page.pageSize);
+                TotalPages = (int)Math.Ceiling((double)uow.Books.GetAll().Count() / page.pageSize);
             }
         }
         private void BooksForms_Load(object sender, EventArgs e)
@@ -134,6 +134,37 @@ namespace BookStore.Forms
                     bookEditform.ShowDialog();
                 }
 
+                if (colName == "print")
+                {
+                    using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
+                    {
+                        Book book = uow.Books.Find(p => p.IdBook == idBook, "Category,Author").FirstOrDefault();
+                        BookViewModel bv = new BookViewModel()
+                        {
+                            IdBook = book.IdBook,
+                            Title = book.Title,
+                            Description = book.DescBook,
+                            Price = (float)book.Price,
+                            NbPages= (int)book.NbPages,
+                            Published = (DateTime)book.PublishedDate,
+                            Categorie = book.Category.Categ,
+                            Author = book.Author.Name,
+                            Cover = book.Cover
+                        };
+                        var props = typeof(BookViewModel).GetProperties();
+                        var dt = new DataTable();
+                        dt.Columns.AddRange(
+                            props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray()
+                            );
+                        dt.Rows.Add(props.Select(p => p.GetValue(bv, null)).ToArray());
+
+                        string RptPath = @"Reports\BookDetail.rdlc";
+                        string NameSrcRpt = "ds_BookDetail";
+                        string fileName = "BookDetail";
+                        PrintToPDF(RptPath, NameSrcRpt, dt, fileName);
+                    }
+                }
+
             }
         }
         private void btnNewBook_Click(object sender, EventArgs e)
@@ -147,10 +178,10 @@ namespace BookStore.Forms
             ReloadData();
         }
 
-          private void btnFirst_Click(object sender, EventArgs e)
+        private void btnFirst_Click(object sender, EventArgs e)
         {
             page.pageIndex = 1;
-            txtCurrentPage.Text= $"Page {page.pageIndex} / {TotalPages}";
+            txtCurrentPage.Text = $"Page {page.pageIndex} / {TotalPages}";
             ReloadData();
         }
 

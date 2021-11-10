@@ -1,4 +1,5 @@
 ﻿using BookStore.ModelsDB;
+using BookStore.ModelsHelpers;
 using BookStore.Repository.Implementations;
 using System;
 using System.Data;
@@ -94,9 +95,9 @@ namespace BookStore.Forms
             if (e.ColumnIndex != -1)
             {
                 string colName = dgvAuthors.Columns[e.ColumnIndex].Name;
+                Guid idAuthor = Guid.Parse(dgvAuthors.Rows[e.RowIndex].Cells["IdAuthor"].Value.ToString());
                 if (colName == "delete")
                 {
-                    Guid idAuthor = Guid.Parse(dgvAuthors.Rows[e.RowIndex].Cells["IdAuthor"].Value.ToString());
                     bool confirm = ConfirmDelete("Voulez vous vraiment supprimer cet auteur  ?");
                     if (confirm)
                     {
@@ -110,6 +111,36 @@ namespace BookStore.Forms
                         }
                     }
 
+                }
+                if (colName == "print")
+                {
+                    using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
+                    {
+                        Author author = uow.Authors.Find(a=>a.IdAuthor==idAuthor, "Books").FirstOrDefault();
+                        AuthorViewModel av = new AuthorViewModel()
+                        {
+                            IdAuthor = author.IdAuthor,
+                            Name = author.Name,
+                            Email = author.Email,
+                            Gender = author.Gender,
+                            nbBooks = author.Books.Count
+                        };
+                        DataTable dt = new DataTable();
+                        var props = typeof(AuthorViewModel).GetProperties();
+                        dt.Columns.AddRange(
+                           props.Select(p => new DataColumn(p.Name, p.PropertyType)).ToArray()
+                            );
+                        dt.Rows.Add(props.Select(p => p.GetValue(av, null)).ToArray());
+
+                        string RptPath = @"Reports\ListAuthors.rdlc";
+                        string NameSrcRpt = "ds_listAuthors";
+                        
+                        string fileName = "ListAuthors";
+                        PrintToPDF(RptPath, NameSrcRpt, dt, fileName,true);
+
+
+
+                    }
                 }
             }
         }
