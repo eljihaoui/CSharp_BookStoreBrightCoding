@@ -125,13 +125,15 @@ namespace BookStore
             LocalReport report = new LocalReport();
             report.LoadReportDefinition(reportDefintion);
             report.DataSources.Add(new ReportDataSource(nameSrcRpt, valueSrcRpt));
-            byte[] pdf = report.Render("PDF");
+           
             if (subReport)
             {
                 StreamReader subReportDefinition = new StreamReader(@"Reports\AuthorSubReport.rdlc");
-                report.LoadSubreportDefinition("AuthorSubReport", subReportDefinition);
-                report.SubreportProcessing += new SubreportProcessingEventHandler(SubreportProcessing);
+                report.LoadSubreportDefinition ("AuthorSubReport", subReportDefinition);
+                report.SubreportProcessing+= new SubreportProcessingEventHandler(subreportProcessing);
             }
+
+             byte[] pdf = report.Render("PDF");
             Stream stm;
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "All Files(*.*)| *.* ";
@@ -149,9 +151,10 @@ namespace BookStore
 
         }
 
-        static void SubreportProcessing(object sender, SubreportProcessingEventArgs args)
+        static void subreportProcessing(object sender, SubreportProcessingEventArgs args)
         {
             Guid idAuthor = Guid.Parse(args.Parameters["IdAuthor"].Values[0].ToString());
+            DataTable dt;
             using (UnitOfWork uow = new UnitOfWork(new bcBookStoreContext()))
             {
                 var list = uow.Books.Find(b => b.IdAuthor == idAuthor, "Author,Category")
@@ -167,9 +170,9 @@ namespace BookStore
                       Author = p.Author.Name,
                       Cover = p.Cover
                   }).ToList();
-                DataTable dt = new DataTable();
+               
                 dt = getDataTableFromIEnumerable(list);
-                ReportDataSource rds = new ReportDataSource("ds_listBooks", dt);
+                ReportDataSource rds = new ReportDataSource("ds_listAuthorsBooks", dt);
                 args.DataSources.Add(rds);
             }
         }

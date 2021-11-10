@@ -11,7 +11,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="ds_listBooks">
+    <DataSet Name="ds_listAuthorsBooks">
       <Query>
         <DataSourceName>ListOfBooks</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
@@ -75,7 +75,7 @@
                   <Width>3.98167cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>5.72204cm</Width>
+                  <Width>4.9812cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>4.32857cm</Width>
@@ -277,13 +277,14 @@
                           <Source>Database</Source>
                           <Value>=Fields!Cover.Value</Value>
                           <MIMEType>image/bmp</MIMEType>
-                          <Sizing>FitProportional</Sizing>
+                          <Sizing>Fit</Sizing>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
                             </Border>
                           </Style>
                         </Image>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -455,11 +456,11 @@
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
-            <DataSetName>ds_listBooks</DataSetName>
+            <DataSetName>ds_listAuthorsBooks</DataSetName>
             <Top>0.52861cm</Top>
             <Left>0.57009cm</Left>
             <Height>4.2868cm</Height>
-            <Width>18.94408cm</Width>
+            <Width>18.20325cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -470,7 +471,7 @@
         <Height>2in</Height>
         <Style />
       </Body>
-      <Width>7.83334in</Width>
+      <Width>7.4375in</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
@@ -486,6 +487,7 @@
   <ReportParameters>
     <ReportParameter Name="IdAuthor">
       <DataType>String</DataType>
+      <Nullable>true</Nullable>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>
